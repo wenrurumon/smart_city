@@ -1,7 +1,7 @@
 create table lc1
 as
 select t.final_grid_id,t.ptype,
-       case when gender='01' then 'M' else 'F' end,
+       case when gender='01' then 'M' else 'F' end as gender_level,
        case when age = '01' then '0-6' 
             when age = '02' then '7-12' 
             when age = '03' then '13-15' 
@@ -17,7 +17,7 @@ select t.final_grid_id,t.ptype,
             when age = '13' then '60-64'
             when age = '14' then '65-69' 
             when age = '15' then '70以上' 
-       end,
+       end as age_level,
        case when a.area = 'V0110000' then 'Y' else 'N' end as is_local,
        count(1) as u_num,
        cast(round(sum(a.weight)) as bigint) as w_num
