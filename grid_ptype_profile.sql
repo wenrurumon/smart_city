@@ -1,4 +1,4 @@
-create table lc_example_temp1
+create table lc1
 as
 select t.final_grid_id,t.ptype,
        case when gender='01' then 'M' else 'F' end,
