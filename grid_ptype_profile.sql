@@ -1,4 +1,4 @@
-create table lc1
+create table grid_ptype_profile
 as
 select t.final_grid_id,t.ptype,
        case when gender='01' then 'M' else 'F' end as gender_level,
