@@ -1,4 +1,4 @@
-create table home_job_test_new_use as 
+create table home_job_cons as 
 select province,city, date, 
 case when homeid is not null then homeid else -1 end as homeid, 
 case when jobid is not null then jobid else -1 end as jobid, 
