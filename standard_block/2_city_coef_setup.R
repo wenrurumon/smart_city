@@ -9,5 +9,7 @@ xm <- (x[1:2]+x[3:4])/2
 latdist <- distm(c(xm[2],x[1]),c(xm[2],x[3]))
 londist <- distm(c(x[2],xm[1]),c(x[4],xm[1]))
 
-(x[4] - x[2])/londist * 200
-(x[3] - x[1])/latdist * 200
+giv <- c(lon = (x[4] - x[2])/londist * 200,lat = (x[3] - x[1])/latdist * 200)
+gsp <- x[1:2]
+
+paste('ceil((weighted_centroid_lat -',gsp[1],')/',giv[1],') as lat2, ceil((weighted_centroid_lon -',gsp[2],')/',giv[2],') as lon2')
