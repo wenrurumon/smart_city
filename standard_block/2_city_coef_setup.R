@@ -13,3 +13,18 @@ giv <- c(lon = (x[4] - x[2])/londist * 200,lat = (x[3] - x[1])/latdist * 200)
 gsp <- x[1:2]
 
 paste('ceil((weighted_centroid_lat -',gsp[1],')/',giv[1],') as lat2, ceil((weighted_centroid_lon -',gsp[2],')/',giv[2],') as lon2')
+
+###########################
+
+library(geosphere)
+options(digits=22)
+x <- rj1(dir())
+x <- lapply(1:nrow(x),function(i){as.numeric(x[i,-1])})
+s <- lapply(x,function(x){
+xm <- (x[1:2]+x[3:4])/2
+latdist <- distm(c(xm[2],x[1]),c(xm[2],x[3]))
+londist <- distm(c(x[2],xm[1]),c(x[4],xm[1]))
+giv <- c(lon = (x[4] - x[2])/londist * 200,lat = (x[3] - x[1])/latdist * 200)
+gsp <- x[1:2]
+list(giv,gsp,paste('ceil((weighted_centroid_lat -',gsp[1],')/',giv[1],') as lat, ceil((weighted_centroid_lon -',gsp[2],')/',giv[2],') as lon'))
+})
