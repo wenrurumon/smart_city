@@ -6,10 +6,10 @@ case when (minstime = stime) then cast(date_format(stime,"yyyy-MM-dd 00:00:00") 
 else stime end as nstime,
 case when (maxetime = etime) then cast(date_format(etime,"yyyy-MM-dd 23:59:59") as timestamp) 
 else etime end as netime
-from openlab.stay_month sm
+from stay_month sm
 left join (
 select uid, city, date, min(stime) as minstime, max(etime) as maxetime
-from openlab.stay_month
+from stay_month
 where city in ('V0110000')
 group by uid, city, date
 ) sud
