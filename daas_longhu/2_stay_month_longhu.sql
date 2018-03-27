@@ -26,11 +26,4 @@ on sp.city = m.city_code
 ) sp2
 on sm2.uid = sp2.uid and sm2.grid_id = sp2.grid_id and sm2.city = sp2.city
 ;
-drop table if exists time_map;
-create table time_map as
-select substr(cast(a.r as String),2,2) as stime, substr(cast(b.r as String),2,2) as etime 
-from 
-(select (row_number() over())+99 as r from stay_month limit 24) a, 
-(select (row_number() over())+99 as r from stay_month limit 24) b
-where a.r <= b.r
-;
+
