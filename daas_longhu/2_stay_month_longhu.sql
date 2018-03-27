@@ -25,5 +25,7 @@ inner join map_longhu m
 on sp.city = m.city_code
 ) sp2
 on sm2.uid = sp2.uid and sm2.grid_id = sp2.grid_id and sm2.city = sp2.city
+group by sm2.uid, sm2.city, sp2.lat, sp2.lon, sm2.nstime, sm2.netime
 ;
 
+select city, date, count(1) as n from stay_month_longhu group by city date;
