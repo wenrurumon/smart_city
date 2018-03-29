@@ -26,3 +26,4 @@ group by city, date, lat, lon, matchh
 
 select date, matchh, slides, count(1) from temp_V0530100 group by date, matchh, slides;
 
+
