@@ -1,3 +1,5 @@
+#stay_month_longhu{uid, city, lat, lon, date, stie, etime}
+
 create table stay_month_longhu as
 select sm2.uid, sm2.city, sp2.lat, sp2.lon, sm2.date, sm2.nstime as stime, sm2.netime as etime
 from (
