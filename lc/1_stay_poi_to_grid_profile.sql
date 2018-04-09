@@ -37,3 +37,4 @@ on m.city_code = sp2.city
 group by sp2.date, sp2.ptype, sp2.city, sp2.local, sp2.gender, sp2.age,
 floor((sp2.weighted_centroid_lat - m.slat)/m.mlat),
 floor((sp2.weighted_centroid_lon - m.slon)/m.mlon)
+;
