@@ -5,7 +5,9 @@ f <- data.table::fread(dir(pattern='csv')[1])
 url1 <- "http://124.65.126.42:30015/arcgis/rest/services/mcapi/MapServer/3/query?where=%20grid_id%20=%20"
 url2 <- "%20and%20city=%27nanjing%27%20and%20date_month=%27201706%27&outFields=*&f=pjson"
 
+j <- 0
 m <- function(x){
+  print(paste(args,j<<-j+1))
   urli <- paste0(url1,x,url2)
   readLines(urli)
 }
@@ -18,7 +20,7 @@ if(length(args)==0){args <- 1}
 
 poi <- poi[i==args]
 out <- lapply(poi,m)
-save(out,file=paste0('nanjing',args,'.rda'))
+save(out,file=paste0('nanjing3',args,'.rda'))
 
 R CMD BATCH --no-save --no-restore '--args 1' q3_nanjing.R &
 R CMD BATCH --no-save --no-restore '--args 2' q3_nanjing.R &
