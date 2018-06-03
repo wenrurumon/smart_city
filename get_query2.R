@@ -4,7 +4,9 @@ f <- data.table::fread(dir(pattern='csv')[1])
 url1 <- "http://124.65.126.42:30015/arcgis/rest/services/mcapi/MapServer/2/query?where=homeid%20=%20"
 url2 <- "%20and%20city=%27nanjing%27%20and%20date_month=%27201706%27&outFields=*&f=pjson"
 
+j <- 0
 m <- function(x){
+  print(paste(args,j<<-j+1))
   urli <- paste0(url1,x,url2)
   readLines(urli)
 }
