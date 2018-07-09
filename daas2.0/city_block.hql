@@ -1,10 +1,11 @@
-create table tempask20180709 as 
+create table temp_lc_20180709_jn4 as
 select
 sp2.date, sp2.ptype, sp2.city, 
 floor((sp2.weighted_centroid_lat - m.slat)/m.mlat) as lat,
 floor((sp2.weighted_centroid_lon - m.slon)/m.mlon) as lon,
 sp2.local, sp2.gender, sp2.age,
-cast(sum(sp2.weight) as bigint) as n
+cast(sum(sp2.gw) as bigint) as n,
+cast(row_number() over(partition by 1) / 100000 as int) + 1 as slides
 from (
 select city_code, min(ext_min_x) as slon, min(ext_min_y) as slat,
 avg(ext_max_x-ext_min_x) as mlon, avg(ext_max_y-ext_min_y) as mlat
@@ -12,7 +13,7 @@ from ss_grid_wgs84
 where city_code = 'V0370100' 
 group by city_code
 ) m inner join (
-select sp.uid, sp.date, sp.ptype, sp.city, sp.weighted_centroid_lat, sp.weighted_centroid_lon, 
+select sp.uid, sp.date, sp.ptype, sp.city, sp.weighted_centroid_lat, sp.weighted_centroid_lon, sp.gw,
 case when u.gender='01' then 'M' else 'F' end as gender,
 case when u.age = '01' then '0-6' 
 when u.age = '02' then '7-12' 
