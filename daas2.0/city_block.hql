@@ -1,4 +1,4 @@
-create table stay_poi_jinan_1804 as 
+create table tempask20180709 as 
 select
 sp2.date, sp2.ptype, sp2.city, 
 floor((sp2.weighted_centroid_lat - m.slat)/m.mlat) as lat,
