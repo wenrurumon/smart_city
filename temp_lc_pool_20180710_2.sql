@@ -1,4 +1,5 @@
-create table temp_lc_pool_20180710 as
+
+create table temp_lc_pool_20180710_2 as
 select t.uid, t.gender, t.age, t.area, t.prov_id, t.grid_id, t.ptype, t.stime, t.etime, t.gw, 
 floor((t.lat - m.slat)/m.mlat) as lat,
 floor((t.lon - m.slon)/m.mlon) as lon
@@ -45,6 +46,6 @@ where b.prov_id in ('030','034','051','036','011')
 ) x
 inner join stay_poi s
 on x.uid = s.uid and x.grid_id = s.final_grid_id
-where s.date = 20180501 and s.city = 'V0110000'
+where s.date = 20180501 and s.city = 'V0310000'
 ) t
 ;
