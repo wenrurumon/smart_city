@@ -1,7 +1,7 @@
-#筛选人群，获取stay_poi，匹配属性与经纬度网格;
+
 drop table if exists pool;
 create table pool as
-select t.uid, t.area, t.prov_id, t.grid_id, t.ptype, t.stime, t.etime, t.gw, 
+select t.uid, t.gender, t.age, t.area, t.prov_id, t.grid_id, t.ptype, t.stime, t.etime, t.gw, 
 floor((t.lat - m.slat)/m.mlat) as lat,
 floor((t.lon - m.slon)/m.mlon) as lon
 from (
@@ -11,7 +11,7 @@ from ss_grid_wgs84
 where city_code = 'V0110000' 
 group by city_code
 ) m inner join (
-select x.uid, x.area, x.prov_id, x.grid_id, x.ptype, x.stime, x.etime, x.gw, 
+select x.uid, x.age, x.gender, x.area, x.prov_id, x.grid_id, x.ptype, x.stime, x.etime, x.gw, 
 s.weighted_centroid_lon as lon, s.weighted_centroid_lat as lat
 from (
 select a.uid, a.area, b.prov_id, a.grid_id, a.ptype, a.stime, a.etime, a.gw,
@@ -49,16 +49,14 @@ where s.date = 20170901 and s.city = 'V0110000'
 ) t
 ;
 
-#年龄性别分布;
+#年龄性别分布
 select a.gender, a.age, a.prov_id, cast(sum(a.gw) as bigint) as w, count(1) as n
 from (select uid, gender, age, prov_id, gw from pool) a
-group by a.gender, a.age, a.prov_id
-;
+group by a.gender, a.age, a.prov_id;
 
-#居住热力图;
+#居住热力图
 select lon, lat, prov_id, count(1) as n, cast(sum(a.gw) as bigint) as w
 from pool 
 where ptype = 1
-group by lon, lat, prov_id
-;
+group by lon, lat, prov_id;
 
