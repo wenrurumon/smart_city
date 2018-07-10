@@ -15,7 +15,9 @@ select x.uid, x.age, x.gender, x.area, x.prov_id, x.grid_id, x.ptype, x.stime, x
 s.weighted_centroid_lon as lon, s.weighted_centroid_lat as lat
 from (
 select a.uid, a.area, b.prov_id, a.grid_id, a.ptype, a.stime, a.etime, a.gw,
-case when a.gender='01' then 'M' else 'F' end as gender,
+case when a.gender='01' then 'M'
+when a.gender = '02' then 'F' 
+end as gender,
 case when a.age = '01' then '0-6' 
 when a.age = '02' then '7-12' 
 when a.age = '03' then '13-15' 
@@ -48,15 +50,3 @@ on x.uid = s.uid and x.grid_id = s.final_grid_id
 where s.date = 20170901 and s.city = 'V0110000'
 ) t
 ;
-
-#年龄性别分布
-select a.gender, a.age, a.prov_id, cast(sum(a.gw) as bigint) as w, count(1) as n
-from (select uid, gender, age, prov_id, gw from pool) a
-group by a.gender, a.age, a.prov_id;
-
-#居住热力图
-select lon, lat, prov_id, count(1) as n, cast(sum(a.gw) as bigint) as w
-from pool 
-where ptype = 1
-group by lon, lat, prov_id;
-
