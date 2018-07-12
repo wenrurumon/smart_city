@@ -1303,12 +1303,30 @@ where s.date = 20180501 and s.city = 'V0310000'
 
 #年龄性别分布
 select a.gender, a.age, a.prov_id, cast(sum(a.gw) as bigint) as w, count(1) as n
-from (select uid, gender, age, prov_id, gw from temp_lc_pool_20180710_2) a
+from (
+select uid, gender, age, prov_id, gw from temp_lc_pool_20180712
+group by uid, gender, age, prov_id, gw
+) a
 group by a.gender, a.age, a.prov_id;
 
 #居住热力图
 select lon, lat, prov_id, count(1) as n, cast(sum(gw) as bigint) as w
-from temp_lc_pool_20180710_2 
+from temp_lc_pool_20180712 
 where ptype = 1
 group by lon, lat, prov_id;
+
+#景区人气
+select a.gender, a.age, a.prov_id, a.spot, count(1) as n, cast(sum(a.gw) as bigint) as w
+from
+(
+select uid, gender, age, prov_id, gw, spot 
+ from temp_lc_pool_20180712
+group by uid, gender, age, prov_id, gw, spot
+) a
+group by a.gender, a.age, a.prov_id, a.spot;
+
+#动线pool
+
+select * from temp_lc_pool_20180712 where spot != 'NULL'
+order by uid, stime;
 
