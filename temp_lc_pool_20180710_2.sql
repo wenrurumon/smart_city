@@ -61,3 +61,15 @@ from temp_lc_pool_20180710_2
 where ptype = 1
 group by lon, lat, prov_id;
 
+#lon lat grouping
+select lon, lat,
+case when lon = 1 and lat = 2 then nanjinglu
+when lon = 1 and lat = 3 then xujiahui
+end as spot
+from 
+(
+  select lon, lat from temp_lc_pool_20180710_2 
+  group by lon, lat
+)
+where (lon=1 and lat=2) or (lon=1 and lat=3);
+
