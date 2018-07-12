@@ -1300,3 +1300,8 @@ where s.date = 20180501 and s.city = 'V0310000'
 ) t 
 ) fx
 ;
+
+#年龄性别分布
+select a.gender, a.age, a.prov_id, cast(sum(a.gw) as bigint) as w, count(1) as n
+from (select uid, gender, age, prov_id, gw from temp_lc_pool_20180710_2) a
+group by a.gender, a.age, a.prov_id;
