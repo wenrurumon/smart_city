@@ -15,3 +15,16 @@ order by uid, stime
 group by x.uid, x.gender, x.age, x.prov_id, x.spot0, x.spot
 order by x.uid
 ;
+
+#景区信息
+select x.gender, x.age, x.prov_id, x.spot, count(1) as n, sum(x.dtime) as dtime
+from
+(
+select uid, gender, age, prov_id, sum(dtime) as dtime, spot
+from temp_lc_pool_20180712_sel
+group by uid, gender, age, prov_id, spot
+) x
+group by x.gender, x.age, x.prov_id, x.spot
+;
+
+#
