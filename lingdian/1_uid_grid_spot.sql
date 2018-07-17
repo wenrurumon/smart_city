@@ -1,4 +1,4 @@
-create table temp_ld_table1 as
+create table temp_ld20180717_table1 as
 select fx.uid, fx.gender, fx.age, fx.area, fx.prov_id, fx.grid_id, fx.ptype, fx.stime, fx.etime,
 fx.gw, fx.lat, fx.lon,
 case when fx.lon = 233 and fx.lat = 248 then 'nanjingdonglu'
