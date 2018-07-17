@@ -1,6 +1,6 @@
 
 create table temp_ld20180717_table2 as
-select x.uid, x.gender, x.age, x.prov_id, x.stime, x.spot, x.dtime,
+select x.uid, x.gender, x.age, x.prov_id, x.stime, x.spot1, x.dtime,
 row_number() over (partition by x.uid order by x.stime) as r
 from 
 (
