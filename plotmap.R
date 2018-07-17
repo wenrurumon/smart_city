@@ -1,5 +1,6 @@
 
 
+bin <- 100
 color = rainbow(bin, end=0.618)
 color = rev(color)
 color = colorRampPalette(color)
