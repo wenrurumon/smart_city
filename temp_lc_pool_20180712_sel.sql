@@ -46,26 +46,45 @@ group by uid, gender, age, prov_id, spot
 group by x.gender, x.age, x.prov_id, x.spot
 ;
 
-#景区点到点
-select x.gender, x.age, x.prov_id, x.spot0, x.spot, count(1) as n, sum(x.dtime) as dtime
+#景区路径
+select b.prov_id, b.spot0, b.spot1, b.spot2, sum(b.d0) as d0, sum(b.d1) as d1, sum(b.d2) as d2, count(1) as n
+from 
+(
+select a.uid, a.prov_id, a.dtime as d1,
+lag(a.dtime,1,0) over (partition by uid order by stime) as d0,
+lead(a.dtime,1,0) over (partition by uid order by stime) as d2,
+a.spot1,
+lag(a.spot1,1,0) over (partition by uid order by stime) as spot0,
+lead(a.spot1,1,0) over (partition by uid order by stime) as spot2
 from
 (
-select uid, gender, age, prov_id, sum(dtime) as dtime, spot0, spot
-from temp_lc_pool_20180712_sel
-group by uid, gender, age, prov_id, spot0, spot
-) x
-group by x.gender, x.age, x.prov_id, x.spot0, x.spot
-;
+select uid, prov_id, stime,
+cast(sum(unix_timestamp(etime)-unix_timestamp(stime)) as bigint) as dtime,
+spot as spot1
+from temp_lc_pool_20180712
+where spot != 'NULL'
+group by uid, prov_id, spot, stime
+) a
+) b
+group by b.prov_id, b.spot0, b.spot1, b.spot2;
 
-#景区点到点2
-select x.gender, x.age, x.prov_id, x.spot0, x.spot1, x.spot2, count(1) as n, sum(x.dtime) as dtime
+select b.prov_id, b.spot0, b.spot1, sum(b.d0) as d0, sum(b.d1) as d1, count(1) as n
+from 
+(
+select a.uid, a.prov_id, a.dtime as d1,
+lag(a.dtime,1,0) over (partition by uid order by stime) as d0,
+a.spot1,
+lag(a.spot1,1,0) over (partition by uid order by stime) as spot0
 from
 (
-select uid, gender, age, prov_id, sum(dtime) as dtime, spot0, spot1, spot2
-from temp_lc_pool_20180717_sel
-group by uid, gender, age, prov_id, spot0, spot1, spot2
-) x
-group by x.gender, x.age, x.prov_id, x.spot0, x.spot1, x.spot2
-;
+select uid, prov_id, stime,
+cast(sum(unix_timestamp(etime)-unix_timestamp(stime)) as bigint) as dtime,
+spot as spot1
+from temp_lc_pool_20180712
+where spot != 'NULL'
+group by uid, prov_id, spot, stime
+) a
+) b
+group by b.prov_id, b.spot0, b.spot1;
 
 
