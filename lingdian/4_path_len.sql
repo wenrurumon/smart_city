@@ -1,4 +1,5 @@
 
-select prov_id, spot, count(distinct uid) as cuid, count(1) as n, sum(r) as sr, max(r) as mr
-from temp_ld20180717_table2
-group by prov_id, spot;
+select a.prov_id, a.spot
+from 
+(select prov_id, uid, spot, count(1) from  temp_ld20180717_table2) a
+group by a.prov_id, a.spot;
