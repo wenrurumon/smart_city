@@ -1,5 +1,5 @@
 
-
+plotmap <- function(d){
 bin <- 100
 color = rainbow(bin, end=0.618)
 color = rev(color)
@@ -19,3 +19,4 @@ ylim = range(y)
 par(mar=rep(0,4)+0.1)
 plot(1, type='n', ann=F, axes=F, xlim=xlim, ylim=ylim)
 rect(x-0.5, y-0.5, x+0.5, y+0.5, col=col, border=NA)
+}
