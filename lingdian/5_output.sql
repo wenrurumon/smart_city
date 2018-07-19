@@ -3,6 +3,8 @@ select prov_id, count(1) as n from temp_ld20180717_table2 group by prov_id;
 
 select prov_id, spot1, count(1) as n from temp_ld20180717_table2 group by prov_id, spot1;
 
+select prov_id, spot1, gender, age, count(1) as n from temp_ld20180717_table2 group by prov_id, gender, age, spot1;
+
 select x.prov_id, x.spot1, x.spot2, 
 sum(x.d1) as d1, sum(x.d2) as d2, count(1) as n
 from 
