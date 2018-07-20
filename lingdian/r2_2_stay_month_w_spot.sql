@@ -1268,3 +1268,4 @@ inner join stay_poi s
 on x.uid = s.uid and x.grid_id = s.final_grid_id
 ) fx
 ;
+
