@@ -1259,7 +1259,7 @@ floor((s.weighted_centroid_lon - 120.85680492)/0.002653328470790916) as lon,
 floor((s.weighted_centroid_lat-30.67559298)/0.0022544689779550493) as lat
 from (
 select sm.date, sm.uid, ua.area, sm.grid_id, ua.gender, ua.age, sm.ptype, sm.stime, sm.etime, ua.gw, ua.prov_id
-from temp_ldf0720_uidsel2 ua
+from temp_ldf0720_uidsel3 ua
 inner join stay_month sm
 on ua.uid = sm.uid
 where sm.date in (20180429,20180430,20180501) and ua.prov_id in ('030','034','051','036','011')
