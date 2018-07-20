@@ -2,7 +2,7 @@
 #staymonth中的条目筛选
 #lon,lat,uid,stime,etime,prov_id,age,gender,ptype
 
-create table temp_ldf0720_smsel as
+create table temp_ldf0720_smsel2 as
 select fx.uid, fx.gender, fx.age, fx.prov_id, fx.ptype, fx.stime, fx.etime,
 fx.gw, fx.lat, fx.lon,
 case when fx.lon = 233 and fx.lat = 248 then 'nanjingdonglu'
