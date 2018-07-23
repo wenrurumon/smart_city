@@ -32,7 +32,7 @@ group by x1.uid, x1.prov_id, x1.gw) x
 group by x.prov_id, x.r, x.countdate;
 
 #spots #5561
-select x2.prov_id, x2.nspot, sum(x.gw) as w, count(1) as n2 from 
+select x2.prov_id, x2.nspot, sum(x2.gw) as w, count(1) as n from 
 (
 select x1.uid, x1.date, x1.gw, count(1) as nspot, x1.prov_id from
 (select uid, date, spot, prov_id, gw from temp_ldf0720_smsel3
@@ -40,14 +40,14 @@ where spot is not null
 group by spot, date, uid, prov_id, gw) x1
 group by x1.uid, x1.date, x1.prov_id, x1.gw
 ) x2
-group by x2.prov_id, x2.n;
+group by x2.prov_id, x2.nspot;
 
 #uid, date, stime, cspot
 select y3.prov_id, x2.spot1, x2.spot2, x2.spot3, x2.spot4, x2.spot5, x2.spot6, y3.cspot, sum(y3.gw) as w, count(1) as n from 
 (
 	select y2.prov_id, y2.uid, y2.date, y2.stime, y2.cspot, y2.gw
 	from(
-		select y1.prov_id, y1.uid, y1.date, min(y1.stime) as stime, count(distinct spot) as cspot
+		select y1.prov_id, y1.uid, y1.date, y1.gw, min(y1.stime) as stime, count(distinct spot) as cspot
 		from (
 			select uid, date, spot, prov_id, gw, min(stime) as stime, max(etime) as etime from temp_ldf0720_smsel3
 			where spot is not null
@@ -56,7 +56,7 @@ select y3.prov_id, x2.spot1, x2.spot2, x2.spot3, x2.spot4, x2.spot5, x2.spot6, y
 		group by y1.uid,y1.date,y1.prov_id, y1.gw
 	) y2
 	where y2.cspot > 1
-	group by y2.prov_id, y2.uid, y2.date, y2.stime, y2.cspot
+	group by y2.prov_id, y2.uid, y2.date, y2.stime, y2.cspot, y2.gw
 ) y3 left join (
 	select x1.uid, x1.date, x1.stime, x1.etime,
 	x1.spot as spot1,
