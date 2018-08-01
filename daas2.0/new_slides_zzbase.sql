@@ -44,3 +44,7 @@ floor((sp2.weighted_centroid_lon - m.slon)/m.mlon)
 ;
 
 select slides, count(1) as n from temp_lc_20180709_jn6 group by slides;
+
+select city_code, min(ext_min_x) as slon, min(ext_min_y) as slat,
+avg(ext_max_x-ext_min_x) as mlon, avg(ext_max_y-ext_min_y) as mlat
+from ss_grid_wgs84
