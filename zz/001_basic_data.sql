@@ -14,7 +14,8 @@ where city_code = 'V0370100'
 group by city_code
 ) m inner join (
 select sp.uid, sp.date, sp.ptype, sp.city, sp.weighted_centroid_lat, sp.weighted_centroid_lon, u.gw,
-case when u.gender='01' then 'M' else 'F' end as gender,
+case when u.gender='01' then 'M' 
+  when u.gender='02' then 'F' end as gender,
 case when u.age = '01' then '0-6' 
 when u.age = '02' then '7-12' 
 when u.age = '03' then '13-15' 
