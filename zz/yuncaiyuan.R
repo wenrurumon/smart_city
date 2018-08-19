@@ -100,4 +100,3 @@ ta.data <- sapply(ta,function(t1){
   t1.udata
 })
 colnames(ta.data) <- c('孟鑫','陶鲁','统一银座','华联鲜超','忠力超市','橙子便利','明天连锁','倍全')[c(1:4,8)]
-
