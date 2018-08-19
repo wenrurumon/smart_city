@@ -80,7 +80,7 @@ model <- function(t1,samples=10){
   list(fit=fit,rlt=rlt)
 }
 
-system.time(test <- lapply(ta,model,samples=1000))
+system.time(test <- lapply(ta,model,samples=10000))
 prlt <- test
 prlt.fit <- sapply(prlt,function(x){x$fit})
 prlt.rlt <- sapply(prlt,function(x){x$rlt})
@@ -90,9 +90,9 @@ save(prlt,file='ycy_rlt_1000.rda')
 # Result
 #####################
 
-chain_score <- sapply(prlt,function(x){(x$rlt*40+bscore*60)/100*40+40})
+chain_score <- sapply(prlt,function(x){(x$rlt*40+bscore*60)/100*50+40})
 colnames(chain_score) <- c('孟鑫','陶鲁','统一银座','华联鲜超','忠力超市','橙子便利','明天连锁','倍全')[c(1:4,8)]
-chain_score <- data.table(map,chain_score,base=40+40*bscore)
+chain_score <- data.table(map,chain_score,base=40+50*bscore)
 colnames(chain_score)[ncol(chain_score)] <- 'bae'
 ta.data <- sapply(ta,function(t1){
   t1.key <- paste(t1$lon,t1$lat)
@@ -100,3 +100,6 @@ ta.data <- sapply(ta,function(t1){
   t1.udata
 })
 colnames(ta.data) <- c('孟鑫','陶鲁','统一银座','华联鲜超','忠力超市','橙子便利','明天连锁','倍全')[c(1:4,8)]
+write.csv(chain_score,'chain_score.csv',row.names=F)
+write.csv(ta.data,'chain_basic.csv')
+
