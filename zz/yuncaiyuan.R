@@ -46,13 +46,14 @@ checkchain <- function(x){
 
 map <- select(udata,lon,lat)
 map.key <- paste(map$lon,map$lat)
-udata <- select(udata,-lon,lat)
+udata <- select(udata,-lon,-lat)
 fdata <- data.table(udata,udata2)
 fdata.pca <- qpca(fdata)
 fdata <- fdata.pca$X[,1:which(fdata.pca$prop>=.95)[1],drop=F]
 fdata.test <- data.frame(y=NA,fdata)
 ta <- c('孟鑫','陶鲁','统一银座','华联鲜超','忠力超市','橙子便利','明天连锁','倍全')[c(1:4,8)]
 ta <- lapply(ta,checkchain)
+bscore <- pnorm(scale(sign(cor(udata$np1,fdata[,1]))*fdata[,1]))
 
 #####################
 # Model
@@ -63,7 +64,7 @@ model <- function(t1,samples=10){
   print(j<<-j+1)
   t1.key <- paste(t1$lon,t1$lat)
   ref.key <- map.key[!map.key%in%t1.key]
-  lapply(1:samples,function(i){
+  temp <- lapply(1:samples,function(i){
     # print(i)
     ri.key <- sample(ref.key,length(t1.key))
     sel <- c(match(t1.key,map.key),match(ri.key,map.key))
@@ -71,10 +72,31 @@ model <- function(t1,samples=10){
     fdata.sel <- data.frame(y=y.sel,fdata[sel,,drop=F])
     model.sel <- lda(y~.,data=fdata.sel)
     fit <- sum(diag(table(predict(model.sel)$class,y.sel)))/length(y.sel)
-    rlt <- predict(model.sel,fdata.test)$class
+    rlt <- as.numeric(paste(predict(model.sel,fdata.test)$class))
     list(fit=fit,rlt=rlt)
   })
+  fit <- sapply(temp,function(x){x$fit})
+  rlt <- rowMeans(sapply(temp,function(x){x$rlt}))
+  list(fit=fit,rlt=rlt)
 }
 
-system.time(test <- lapply(ta,model,samples=10000))
+system.time(test <- lapply(ta,model,samples=1000))
+prlt <- test
+prlt.fit <- sapply(prlt,function(x){x$fit})
+prlt.rlt <- sapply(prlt,function(x){x$rlt})
+save(prlt,file='ycy_rlt_1000.rda')
+
+#####################
+# Result
+#####################
+
+chain_score <- sapply(prlt,function(x){(x$rlt*40+bscore*60)/100*40+60})
+colnames(chain_score) <- c('孟鑫','陶鲁','统一银座','华联鲜超','忠力超市','橙子便利','明天连锁','倍全')[c(1:4,8)]
+chain_score <- data.table(map,chain_score,base=60+40*bscore)
+ta.data <- sapply(ta,function(t1){
+  t1.key <- paste(t1$lon,t1$lat)
+  t1.udata <- colMeans(udata[match(t1.key,map.key)])
+  t1.udata
+})
+colnames(ta.data) <- c('孟鑫','陶鲁','统一银座','华联鲜超','忠力超市','橙子便利','明天连锁','倍全')[c(1:4,8)]
 
