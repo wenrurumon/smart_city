@@ -90,9 +90,10 @@ save(prlt,file='ycy_rlt_1000.rda')
 # Result
 #####################
 
-chain_score <- sapply(prlt,function(x){(x$rlt*40+bscore*60)/100*40+60})
+chain_score <- sapply(prlt,function(x){(x$rlt*40+bscore*60)/100*40+40})
 colnames(chain_score) <- c('孟鑫','陶鲁','统一银座','华联鲜超','忠力超市','橙子便利','明天连锁','倍全')[c(1:4,8)]
-chain_score <- data.table(map,chain_score,base=60+40*bscore)
+chain_score <- data.table(map,chain_score,base=40+40*bscore)
+colnames(chain_score)[ncol(chain_score)] <- 'bae'
 ta.data <- sapply(ta,function(t1){
   t1.key <- paste(t1$lon,t1$lat)
   t1.udata <- colMeans(udata[match(t1.key,map.key)])
