@@ -62,7 +62,7 @@ p3 <- raw.profile %>% filter(ptype>0) %>% group_by(lon,lat) %>% summarise(
 p4 <- raw.profile %>% filter(ptype>0) %>% group_by(lon,lat,age) %>% summarise(n=sum2(n))
 p4$age2 <- 0
 p4$age2[(substr(p4$age,1,2) %in% sort(substr(unique(p4$age),1,2))[c(1:3,14)])] <- 18
-p4$age2[(substr(p4$age,1,2) %in% sort(substr(unique(p4$age),1,2))[c(5:7)])] <- 40
+p4$age2[(substr(p4$age,1,2) %in% sort(substr(unique(p4$age),1,2))[c(4:7)])] <- 40
 p4$age2[(substr(p4$age,1,2) %in% sort(substr(unique(p4$age),1,2))[c(8:11)])] <- 60
 p4$age2[(substr(p4$age,1,2) %in% sort(substr(unique(p4$age),1,2))[c(12,13,15)])] <- 100
 p4 <- p4 %>% group_by(lon,lat) %>% summarise(
